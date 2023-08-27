@@ -1,35 +1,76 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0);
+import RootLayout from "./pages/Root";
+import ErrorPage from "./pages/Error";
+import HomePage from "./pages/Home";
+import AuthenticationPage from "./pages/Auth";
+import MyprofilePage from "./pages/Myprofile";
+import NewsPage from "./pages/News";
+import BoardPage from "./pages/boards/Board";
+import BoardRootLayout from "./pages/boards/BoardRoot";
+import PostPage from "./pages/boards/Post";
+import EditPostPage from "./pages/boards/EditPost";
+import NewPostPage from "./pages/boards/NewPost";
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React + TypeScript</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+const router = createBrowserRouter([
+  {
+    path: "/",
+    id: "root",
+    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "auth",
+        element: <AuthenticationPage />,
+      },
+      {
+        path: "board",
+        element: <BoardRootLayout />,
+        children: [
+          {
+            index: true,
+            element: <BoardPage />,
+          },
+          {
+            path: ":postId",
+            id: "post-detail",
+            children: [
+              {
+                index: true,
+                element: <PostPage />,
+              },
+              {
+                path: "edit-post",
+                element: <EditPostPage />,
+              },
+            ],
+          },
+          {
+            path: "new-post",
+            element: <NewPostPage />,
+          },
+        ],
+      },
+      {
+        path: "profile",
+        element: <MyprofilePage />,
+      },
+      {
+        path: "news",
+        element: <NewsPage />,
+      },
+    ],
+  },
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;
