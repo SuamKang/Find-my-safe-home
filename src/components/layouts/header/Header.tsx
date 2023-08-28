@@ -2,8 +2,11 @@ import Logo from "./Logo";
 
 import classes from "./Header.module.css";
 import { NavLink } from "react-router-dom";
+// import { useState } from "react";
 
-function Header() {
+const Header = () => {
+  const isLogin = false; // 임시
+
   return (
     <header className={classes.header}>
       <div>
@@ -11,39 +14,43 @@ function Header() {
       </div>
       <nav>
         <ul className={classes.list}>
+          {isLogin ? (
+            <li>
+              <NavLink
+                to="profile"
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                프로필
+              </NavLink>
+            </li>
+          ) : (
+            <li>
+              <NavLink
+                to="login"
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                로그인
+              </NavLink>
+            </li>
+          )}
+
           <li>
             <NavLink
-              to="auth"
+              to="news"
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
             >
-              로그인
+              뉴스소식
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="auth"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              프로필
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="auth"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              체트리스트
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="auth"
+              to="board"
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
@@ -51,10 +58,20 @@ function Header() {
               자유게시판
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="faq"
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+            >
+              FAQ
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </header>
   );
-}
+};
 
 export default Header;
