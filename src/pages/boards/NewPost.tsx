@@ -1,5 +1,5 @@
-function NewPostPage() {
+const NewPostPage = () => {
   return <div></div>;
-}
+};
 
 export default NewPostPage;

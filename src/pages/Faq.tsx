@@ -1,7 +1,5 @@
-import React from "react";
-
-function Faq() {
+const FaqPage = () => {
   return <div></div>;
-}
+};
 
-export default Faq;
+export default FaqPage;

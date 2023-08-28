@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 import LogoImg from "../../UI/LogoImg";
 
-function Logo() {
+const Logo = () => {
   return (
     <NavLink to="/">
       <div className="logo-wrapper">
@@ -10,6 +10,6 @@ function Logo() {
       </div>
     </NavLink>
   );
-}
+};
 
 export default Logo;
