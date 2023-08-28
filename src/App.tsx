@@ -5,7 +5,6 @@ import "./App.css";
 import RootLayout from "./pages/Root";
 import ErrorPage from "./pages/Error";
 import HomePage from "./pages/Home";
-import AuthenticationPage from "./pages/Auth";
 import MyprofilePage from "./pages/Myprofile";
 import NewsPage from "./pages/News";
 import BoardPage from "./pages/boards/Board";
@@ -13,7 +12,12 @@ import BoardRootLayout from "./pages/boards/BoardRoot";
 import PostPage from "./pages/boards/Post";
 import EditPostPage from "./pages/boards/EditPost";
 import NewPostPage from "./pages/boards/NewPost";
+import FaqPage from "./pages/Faq";
+import LoginPage from "./pages/Login";
+import SignupPage from "./pages/Signup";
 
+// 리엑트 라우터 V6.4업데이트 후 createBrowserRouter 지원
+// 공식문서에 나온 예제대로 createBrowserRouter첫번째 인자로 객체형식의 라우터 지정
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,8 +30,16 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "auth",
-        element: <AuthenticationPage />,
+        path: "login",
+        element: <LoginPage />,
+      },
+      {
+        path: "signup",
+        element: <SignupPage />,
+      },
+      {
+        path: "profile",
+        element: <MyprofilePage />,
       },
       {
         path: "board",
@@ -58,12 +70,12 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "profile",
-        element: <MyprofilePage />,
-      },
-      {
         path: "news",
         element: <NewsPage />,
+      },
+      {
+        path: "faq",
+        element: <FaqPage />,
       },
     ],
   },
