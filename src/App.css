@@ -1,21 +1,21 @@
-/* #root {
+#root {
   max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-} */
+}
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
 
 main {
-  text-align: center;
-  margin: 2rem auto;
+  padding-top: 66px; /*헤더 높이만큼 벌려 겹침 방지*/
+  /*중앙정렬*/
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
 }
 
 ul {
