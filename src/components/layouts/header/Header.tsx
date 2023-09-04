@@ -1,18 +1,28 @@
-import Logo from "./Logo";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 import classes from "./Header.module.css";
-import { NavLink } from "react-router-dom";
-// import { useState } from "react";
+
+import Logo from "./Logo";
+
+import { IconContext } from "react-icons";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const Header = () => {
   const isLogin = false; // 임시
 
+  const [isToggleOpen, setIsToggleOpen] = useState(false);
+
+  const toggleHandler = () => {
+    setIsToggleOpen(!isToggleOpen);
+  };
+
   return (
     <header className={classes.header}>
-      <div>
+      <div className={classes.logo}>
         <Logo />
       </div>
-      <nav>
+      <nav className={`${classes.nav} ${isToggleOpen ? classes.open : ""}`}>
         <ul className={classes.list}>
           {isLogin ? (
             <li>
@@ -70,6 +80,11 @@ const Header = () => {
           </li>
         </ul>
       </nav>
+      <IconContext.Provider
+        value={{ color: "var(--color-primary-500", size: "30" }}
+      >
+        <GiHamburgerMenu className={classes.toggle} onClick={toggleHandler} />
+      </IconContext.Provider>
     </header>
   );
 };
