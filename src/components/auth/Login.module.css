@@ -1,4 +1,5 @@
 h1 {
+  margin: 0;
   text-align: center;
   color: var(--color-primary-700);
 }
@@ -29,7 +30,7 @@ h1 {
   width: 100%;
   padding: 5px 0;
   font-size: 18px;
-  color: var(--color-primary-200);
+  color: var(--color-primary-600);
 }
 
 .form-control input:focus,
@@ -52,11 +53,11 @@ h1 {
   transition: color 0.3s, transform 0.3s cubic-bezier(0.68, -0.55, 0.262, 1.55);
 }
 
-.form-control label span {
+/* .form-control label span {
   display: inline-block;
   min-width: 5px;
   transition: 0.3s cubic-bezier(0.68, -0.55, 0.262, 1.55);
-}
+} */
 
 .form-control input:focus + label,
 .form-control input:valid + label {

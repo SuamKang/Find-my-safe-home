@@ -1,0 +1,124 @@
+h1 {
+  margin: 0;
+  text-align: center;
+  color: var(--color-primary-700);
+}
+
+.form {
+  width: 380px;
+  margin: 2rem auto;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px var(--color-primary-400);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control {
+  position: relative;
+  margin: 40px 20px;
+  border-radius: 5px;
+}
+
+.form-control input {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 2px solid var(--color-primary-200);
+
+  display: block;
+  width: 100%;
+  padding: 5px 0;
+  font-size: 18px;
+  color: var(--color-primary-600);
+}
+
+.form-control input:focus,
+.form-control input:valid {
+  outline: none; /*포커스나 유효성검사시 아웃라인 제거*/
+  border-bottom-color: var(--color-primary-700);
+}
+
+.form-control label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-primary-200);
+  font-size: 18px;
+  font-weight: 700;
+
+  /*라벨 파도 전환 효과*/
+  transform-origin: left bottom;
+  transform: translate(0, 0) scaleY(1);
+  transition: color 0.3s, transform 0.3s cubic-bezier(0.68, -0.55, 0.262, 1.55);
+}
+
+.form-control input:focus + label,
+.form-control input:valid + label {
+  color: var(--color-primary-700);
+  transform: translateY(-30px);
+}
+
+.form button {
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+
+  align-self: center;
+  width: 90%;
+  margin: 20px 0;
+  padding: 10px;
+  background-color: var(--color-primary-200);
+  color: var(--color-gray-800);
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  color: #fff;
+  background-color: var(--color-primary-600);
+}
+
+button:focus {
+  outline: 0;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.action {
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.action small {
+  color: var(--color-primary-400);
+}
+
+.action a {
+  text-decoration: none;
+  background-color: transparent;
+  color: var(--color-gray-300);
+}
+
+.action a:hover {
+  color: var(--color-primary-800);
+}
+
+.error-text {
+  font-size: 13px;
+  color: red;
+  width: 100%;
+  padding: 5px 0;
+}
+
+.error-input {
+  border: 1px solid red;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}

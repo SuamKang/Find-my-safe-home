@@ -1,11 +1,9 @@
 .container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 999;
   margin: 0 auto;
   width: 100vw;
-  background-color: brown; /*임시*/
+  /*푸터 하단에 고정*/
+  height: 140px;
+  /* transform: translateY(-100%); */
 }
 
 .topBox {
