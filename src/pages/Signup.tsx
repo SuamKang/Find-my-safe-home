@@ -1,7 +1,12 @@
 import SignupForm from "../components/auth/Signup";
+import PageContent from "../components/layouts/main/PageContent";
 
 const SignupPage = () => {
-  return <SignupForm />;
+  return (
+    <PageContent>
+      <SignupForm />
+    </PageContent>
+  );
 };
 
 export default SignupPage;

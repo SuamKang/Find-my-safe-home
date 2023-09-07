@@ -53,12 +53,6 @@ h1 {
   transition: color 0.3s, transform 0.3s cubic-bezier(0.68, -0.55, 0.262, 1.55);
 }
 
-/* .form-control label span {
-  display: inline-block;
-  min-width: 5px;
-  transition: 0.3s cubic-bezier(0.68, -0.55, 0.262, 1.55);
-} */
-
 .form-control input:focus + label,
 .form-control input:valid + label {
   color: var(--color-primary-700);
@@ -113,4 +107,18 @@ button:active {
 
 .action a:hover {
   color: var(--color-primary-800);
+}
+
+.error-text {
+  font-size: 13px;
+  color: red;
+  width: 100%;
+  padding: 5px 0;
+}
+
+.error-input {
+  border: 1px solid red;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 }

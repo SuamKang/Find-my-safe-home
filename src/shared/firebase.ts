@@ -1,5 +1,5 @@
 // firebase 스니펫 추가하여 config 설정해주기
-import firebase from "firebase/compat/app";
+import { initializeApp } from "firebase/app";
 
 // vite 환경변수 설정 셋팅
 const {
@@ -22,7 +22,9 @@ const firebaseConfig = {
 };
 
 // 파이어 베이스 초기화
-firebase.initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
+
+export const apiKey = firebaseConfig.apiKey;
 
 // 오류 발생
 // app/no-app Firebase: No Firebase App '[DEFAULT]' has been created - call initializeApp() first (app/no-app). 이라는 오류가 발생했다.
@@ -55,3 +57,11 @@ firebase.initializeApp(firebaseConfig);
 // Firebase v9 이후의 버전부터는 새로운 모듈화된 SDK가 도입되었으며, 이전 버전과 호환성을 유지하기 위해 호환성 레이어가 제공되었습니다. 새로운 SDK는 개발자에게 더 많은 유연성을 제공하고, 필요한 서비스만 가져와서 사용할 수 있습니다.
 
 // 따라서 프로젝트의 Firebase 버전에 따라 firebase/app 또는 firebase/compat/app 중 하나를 선택하여 Firebase 초기화 방식을 사용하면 됩니다. 새로운 프로젝트를 시작할 경우에는 새로운 모듈화된 SDK를 사용하는 것을 권장합니다.
+
+// 현재 내가 작성하는 코드는 firebase v8호환 모듈을 사용하고 있어서 firebase v9 이상을 사용하려면 v9 호환 모듈로 코드를 업데이트 해야할 필요가 있었다.
+// 정리하자면
+// Firebase 초기화 부분에서 firebase/app 모듈을 불러오고 firebase.initializeApp(firebaseConfig)을 실행한 후, 해당 앱(app) 객체를 변수에 할당하고 내보내야 한다.
+
+// Firebase 다른 모듈을 사용할 때에는 해당 앱 객체를 매개변수로 전달하여 가져와야 합니다. 예를 들어, firebase/auth 모듈을 사용할 때 getAuth(app)와 같이 앱 객체를 전달해야 합니다.
+
+// 간단히 말해서, 코드를 Firebase v9 호환 모듈에 맞게 업데이트하고, 초기화 된 앱 객체를 사용하여 다른 Firebase 모듈을 호출해야 합니다.

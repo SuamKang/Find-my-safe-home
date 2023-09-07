@@ -1,3 +1,4 @@
+import { app } from "../../shared/firebase";
 import { FirebaseError } from "firebase/app";
 import {
   getAuth,
@@ -6,23 +7,28 @@ import {
   onAuthStateChanged,
   signOut,
   updateProfile,
+  setPersistence,
+  browserLocalPersistence,
 } from "firebase/auth"; // 파이어베이스 인증에 필요한 메서드들
-// import { getDatabase, ref, set } from "firebase/database";
 
 import { AppDispatch } from "../index"; // type
-import { authActions } from "../slices/auth-slice";
 import {
-  saveTokenToLocalStorage,
-  getTokenFromLocalStorage,
+  saveTokenToSessionStorage,
+  getTokenFromSessionStorage,
+  removeTokenFromSessionStorage,
 } from "../../shared/token";
+import { authActions } from "../slices/auth-slice";
+import { apiKey } from "../../shared/firebase";
+
+const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+
 const { setUser, logout } = authActions;
 
 // 회원가입 액션 생성자 함수
-// updateProfile메서드가 SDK의 업데이트에 따라 변경가능하다고 한다, 그래서 방법을 찾아보니 firebase에 사용자 추가 정보를 저장하려면 firebase의 reatime database를 사용할 수 있다고 한다.
 export const signUpFB = (email: string, password: string, userName: string) => {
   return async (dispatch: AppDispatch) => {
     try {
-      const auth = getAuth();
+      const auth = getAuth(app);
 
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -64,8 +70,11 @@ export const signUpFB = (email: string, password: string, userName: string) => {
 // 로그인 액션 생성자 함수
 export const logInFB = (enteredEmail: string, enteredPassword: string) => {
   return async (dispatch: AppDispatch) => {
+    const auth = getAuth(app);
+
     try {
-      const auth = getAuth();
+      //browserSessionPersistence메서드로 현재 세션에 대해서만 사용자의 인증 상태를 유지하기 위해 지속성을 으로 설정.
+      await setPersistence(auth, browserLocalPersistence);
       const userCredential = await signInWithEmailAndPassword(
         auth,
         enteredEmail,
@@ -76,8 +85,8 @@ export const logInFB = (enteredEmail: string, enteredPassword: string) => {
 
       // 파이어베이스로부터 토큰 받기
       const idToken = await user.getIdToken();
-      console.log(idToken);
-      saveTokenToLocalStorage(idToken);
+      // console.log(idToken);
+      saveTokenToSessionStorage(idToken);
 
       // 회원가입에서와 같이 user 데이터를 필요한 형태로 추출해준다
       const { email, displayName, uid } = user;
@@ -94,21 +103,46 @@ export const logInFB = (enteredEmail: string, enteredPassword: string) => {
   };
 };
 
+// 로그인 상태 체크 엑션 생성자 함수
+export const logInCheckFB = () => {
+  return async (dispatch: AppDispatch) => {
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // payload: {
+        //   user_name: user.displayName,
+        //   user_profile: "",
+        //   id: user.email,
+        //   uid: user.uid,
+        // },
+        const { email, displayName, uid } = user;
+        const userInfo = { email, displayName, uid };
+
+        dispatch(setUser(userInfo));
+      } else {
+        dispatch(logout());
+      }
+    });
+  };
+};
+
+// 토큰 유효기간 검사 생성자
 export const checkRefreshToken = () => {
   return async (dispatch: AppDispatch) => {
-    const idToken = getTokenFromLocalStorage();
+    const idToken = getTokenFromSessionStorage();
 
     if (idToken) {
       // Firebase에서 현재 유효한 토큰 확인하기
       try {
-        const auth = getAuth();
+        const auth = getAuth(app);
         const user = auth.currentUser; // 현재 로그인한 유저정보
 
         if (user) {
           const refreshedToken = await user.getIdToken(true);
 
           // 갱신된 토큰을 로컬 스토리지에 저장하기
-          saveTokenToLocalStorage(refreshedToken);
+          saveTokenToSessionStorage(refreshedToken);
 
           // 갱신된 토큰으로 사용자 정보 업데이트하기
           dispatch(setUser(user));
@@ -124,35 +158,15 @@ export const checkRefreshToken = () => {
   };
 };
 
-// 로그인 상태 체크 엑션
-export const logInCheckFB = () => {
-  return async (dispatch: AppDispatch) => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // payload: {
-        //   user_name: user.displayName,
-        //   user_profile: "",
-        //   id: user.email,
-        //   uid: user.uid,
-        // },
-        dispatch(setUser(user));
-      } else {
-        dispatch(logout());
-      }
-    });
-  };
-};
-
 // 로그아웃 액션 생성자 함수
-export const logOutFB = () => {
+const logOutFB = () => {
   return async (dispatch: AppDispatch) => {
     try {
-      const auth = getAuth();
+      const auth = getAuth(app);
       await signOut(auth);
-      localStorage.removeItem("userToken");
 
       dispatch(logout());
+      removeTokenFromSessionStorage(_session_key);
     } catch (error) {
       console.error("Error signing out:", error);
     }

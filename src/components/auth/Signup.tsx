@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Form, Link, useNavigate } from "react-router-dom";
 
-import classes from "./Signup.module.css";
 import { useAppDispatch } from "../../redux/hooks";
 import { authAction } from "../../redux/actions/auth-action"; // 비동기 엑션
 import {
@@ -10,6 +9,8 @@ import {
   passwordCheck,
 } from "../../shared/validatioin";
 import { errorMessage } from "../../shared/validatioin";
+
+import classes from "./Signup.module.css";
 
 // 객체안의 키값의 타입을 설정하고 각각의 키값의 타입을 접근할땐 keyof 키워드를 붙여줘야한다.
 type FormData = {
@@ -93,15 +94,17 @@ const SignupForm = () => {
     ) {
       return alert("양식을 입력하세요!");
     }
-    // 유효한 녀석들만 최종 디스패치
+    // 에러메시지가 없는것 들만 최종 디스패치
     if (
-      !errorData["userName"] &&
-      !errorData["email"] &&
-      !errorData["password"] &&
-      !errorData["confirmPassword"]
+      errorData["userName"] !== "invalidUserName" &&
+      errorData["email"] !== "invalidEmail" &&
+      errorData["password"] !== "invalidPw" &&
+      errorData["confirmPassword"] !== "invalidConfirmPW"
     ) {
       dispatch(authAction.signUpFB(email, password, userName));
       navigate("/login"); // 리덕스에서가 아닌 컴포넌트내부에서 리디렉션
+    } else {
+      return alert("양식을 다시 확인해 주세요.");
     }
   };
 
@@ -116,11 +119,13 @@ const SignupForm = () => {
             name="userName"
             onBlur={blurHandler}
             onChange={changeHandler}
-            className={errorData.userName ? `${classes["error-input"]}` : ""}
+            className={
+              errorData.userName !== "" ? `${classes["error-input"]}` : ""
+            }
             required
           />
           <label htmlFor="name">이름</label>
-          {errorData.userName && (
+          {errorData.userName !== "" && (
             <p className={classes["error-text"]}>
               {errorMessage.invalidUserName}
             </p>
@@ -134,11 +139,13 @@ const SignupForm = () => {
             name="email"
             onBlur={blurHandler}
             onChange={changeHandler}
-            className={errorData.email ? `${classes["error-input"]}` : ""}
+            className={
+              errorData.email !== "" ? `${classes["error-input"]}` : ""
+            }
             required
           />
           <label htmlFor="email">이메일</label>
-          {errorData.email && (
+          {errorData.email !== "" && (
             <p className={classes["error-text"]}>{errorMessage.invalidEmail}</p>
           )}
         </div>
@@ -150,11 +157,13 @@ const SignupForm = () => {
             name="password"
             onBlur={blurHandler}
             onChange={changeHandler}
-            className={errorData.password ? `${classes["error-input"]}` : ""}
+            className={
+              errorData.password !== "" ? `${classes["error-input"]}` : ""
+            }
             required
           />
           <label htmlFor="password">비밀번호</label>
-          {errorData.password && (
+          {errorData.password !== "" && (
             <p className={classes["error-text"]}>{errorMessage.invalidPw}</p>
           )}
         </div>
@@ -167,12 +176,14 @@ const SignupForm = () => {
             onBlur={blurHandler}
             onChange={changeHandler}
             className={
-              errorData.confirmPassword ? `${classes["error-input"]}` : ""
+              errorData.confirmPassword !== ""
+                ? `${classes["error-input"]}`
+                : ""
             }
             required
           />
           <label htmlFor="confirmPassword">비밀번호 확인</label>
-          {errorData.confirmPassword && (
+          {errorData.confirmPassword !== "" && (
             <p className={classes["error-text"]}>
               {errorMessage.invalidConfirmPw}
             </p>
