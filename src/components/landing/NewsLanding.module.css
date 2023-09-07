@@ -1,0 +1,73 @@
+.news__inner {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.news__title {
+  position: sticky; /*스코롤해도 상단에 걸치게*/
+  top: 70px;
+  left: 0;
+
+  width: 50%;
+  height: 5vw;
+  font-size: 4vw;
+  font-weight: 900;
+  line-height: 1.6;
+  font-family: var(--mainKor-font);
+  text-transform: uppercase;
+  color: var(--color-primary-600);
+  border-bottom: 0.4vw solid var(--color-primary-600);
+}
+
+.news__title em {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 2;
+}
+
+.news__desc {
+  width: 50%;
+}
+
+.news__desc span {
+  font-size: 5vw;
+  font-weight: 900;
+  line-height: 1.5;
+  font-family: var(--mainNum-font);
+  color: var(--color-primary-600);
+}
+
+.news__desc h3 {
+  font-size: 24px;
+  text-decoration: underline;
+  text-underline-position: under;
+  margin-bottom: 1vw;
+}
+
+.news__desc p {
+  margin-bottom: 30vh;
+}
+
+@media (max-width: 768px) {
+  .news__inner {
+    flex-direction: column;
+  }
+
+  .news__title {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10vw;
+    font-size: 30px;
+
+    top: 68px; /*높이 포지션 살짝아래*/
+  }
+
+  .news__desc {
+    width: 100%;
+  }
+
+  .news__desc span {
+    font-size: 15vw;
+  }
+}

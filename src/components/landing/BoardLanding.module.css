@@ -1,0 +1,140 @@
+.board__inner {
+  padding: 16px;
+}
+
+.board__title {
+  position: sticky;
+  top: 70px;
+  left: 0;
+  width: 70%;
+  height: 5vw;
+  font-size: 4vw;
+  font-weight: 900;
+  line-height: 1.6;
+  font-family: var(--mainKor-font);
+  text-transform: uppercase;
+  color: var(--color-primary-600);
+  border-bottom: 0.4vw solid var(--color-primary-600);
+  margin-bottom: 100px;
+}
+
+.board__title em {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 2;
+}
+
+.board__item {
+  height: 70vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  position: sticky;
+  left: 0;
+}
+
+.board__item.b1 {
+  background-color: var(--color-primary-100);
+  top: 180px; /*섹션에서 위치한 높이 고정*/
+}
+
+.board__item.b2 {
+  background-color: var(--color-primary-800);
+  top: 200px;
+}
+
+.board__item.b3 {
+  background-color: var(--color-primary-300);
+  top: 220px;
+}
+
+.board__item .num {
+  font-size: 5vw;
+  line-height: 1;
+  font-weight: 900;
+  font-family: var(--mainNum-font);
+  color: #fff;
+
+  position: absolute;
+  left: 1vw;
+  top: 1vw;
+}
+
+.board__item .leftSide {
+  width: 50%;
+  text-align: center;
+}
+
+.board__item .rightSide {
+  width: 50%;
+  text-align: center;
+}
+
+/*섹션 왼쪽 사이드 컨텐츠*/
+.board__item .leftSide:nth-child(2) > div {
+  font-size: 3vw;
+  line-height: 1;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: underline;
+  font-family: var(--mainEng-font);
+  color: #fff;
+}
+
+/*섹션 오른쪽 사이드 컨텐츠*/
+.board__item .rightSide:nth-child(1) > div,
+.board__item .rightSide:nth-child(3) > div {
+  font-size: 3vw;
+  line-height: 1;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: underline;
+  font-family: var(--mainEng-font);
+}
+
+.img {
+  width: 100%;
+}
+
+.board__item .title {
+  font-family: var(--mainKor-font);
+  margin-bottom: 16px;
+}
+
+.board__item .btn a {
+  text-transform: uppercase;
+  color: var(--black200);
+  font-size: 1rem;
+  transition: all 0.3s;
+  margin: 0 2px;
+}
+
+@media (max-width: 768px) {
+  .board__title {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10vw;
+    font-size: 30px;
+
+    top: 68px;
+    z-index: 9999;
+  }
+
+  .board__item.b1 {
+    top: 140px;
+  }
+  .board__item.b2 {
+    top: 160px;
+  }
+  .board__item.b3 {
+    top: 180px;
+  }
+
+  .board__item .num {
+    font-size: 80px;
+    left: 20px;
+    top: 20px;
+  }
+}
