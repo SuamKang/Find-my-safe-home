@@ -2,8 +2,26 @@
   box-sizing: border-box;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://webssfont.github.io/nanumSquareNeo/nanumSquareNeo.css");
+@import url("https://websfont.github.io/gmarket/gmarket.css");
+
+.mont {
+  font-family: "Montserrat";
+}
+.nanum {
+  font-family: "nanumSquareNeo";
+}
+.gmarket {
+  font-family: "gmarket";
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --mainEng-font: "Montserrat";
+  --mainKor-font: "nanumSquareNeo";
+  --mainNum-font: "gmarket";
+
+  font-family: var(--mainEng-fontm), var(--mainKor-font);
   font-size: 16px;
   line-height: 1.5;
   font-weight: 400;
@@ -33,6 +51,15 @@
   --color-primary-700: #630d66;
   --color-primary-800: #4f1051;
   --color-primary-900: #3d113d;
+
+  --color-sub-100: #eeffeb;
+  --color-sub-200: #c9ffc2;
+  --color-sub-300: #a0fd99;
+  --color-sub-400: #88fc84;
+  --color-sub-500: #71cd6d;
+  --color-sub-600: #5ba057;
+  --color-sub-700: #457642;
+  --color-sub-800: #304e2d;
 
   --color-error-light: #ce0000;
   --color-error-dark: #c11c0a;
