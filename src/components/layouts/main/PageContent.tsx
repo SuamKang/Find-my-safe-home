@@ -7,7 +7,11 @@ interface Props {
 }
 
 const PageContent: React.FC<Props> = ({ children }) => {
-  return <div className={classes.content}>{children}</div>;
+  return (
+    <main id="main" role="main" className={classes.content}>
+      {children}
+    </main>
+  );
 };
 
 export default PageContent;

@@ -7,10 +7,13 @@ import Logo from "./Logo";
 
 import { IconContext } from "react-icons";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useAppSelector } from "../../../redux/hooks";
+
+// 이제 로그인 상태또한 설정완료했으니 프로필 페이지 구성하고 그 안에서 로그아웃 할 수 있는 버튼을 만들자
 
 const Header = () => {
-  const isLogin = false; // 임시
-
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
+  // console.log(isLogin);
   const [isToggleOpen, setIsToggleOpen] = useState(false);
 
   const toggleHandler = () => {
@@ -18,7 +21,7 @@ const Header = () => {
   };
 
   return (
-    <header className={classes.header}>
+    <header id="header" className={classes.header}>
       <div className={classes.logo}>
         <Logo />
       </div>

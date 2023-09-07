@@ -1,5 +1,18 @@
+import BoardLanding from "../components/landing/BoardLanding";
+import FaqLanding from "../components/landing/FaqLanding";
+import Intro from "../components/landing/IntroLanding";
+import NewsLanding from "../components/landing/NewsLanding";
+import PageContent from "../components/layouts/main/PageContent";
+
 const HomePage = () => {
-  return <div>이 페이지는 홈페이지 입니다.</div>;
+  return (
+    <PageContent>
+      <Intro />
+      <NewsLanding />
+      <BoardLanding />
+      <FaqLanding />
+    </PageContent>
+  );
 };
 
 export default HomePage;

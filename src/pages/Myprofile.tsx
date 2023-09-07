@@ -1,5 +1,6 @@
+import PageContent from "../components/layouts/main/PageContent";
 const MyprofilePage = () => {
-  return <div></div>;
+  return <PageContent>test</PageContent>;
 };
 
 export default MyprofilePage;
