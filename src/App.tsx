@@ -15,6 +15,7 @@ import NewPostPage from "./pages/boards/NewPost";
 import FaqPage from "./pages/Faq";
 import LoginPage from "./pages/Login";
 import SignupPage from "./pages/Signup";
+import { tokenLoader } from "./shared/token";
 
 // 리엑트 라우터 V6.4업데이트 후 createBrowserRouter 지원
 // 공식문서에 나온 예제대로 createBrowserRouter첫번째 인자로 객체형식의 라우터 지정
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
     id: "root",
     element: <RootLayout />,
     errorElement: <ErrorPage />,
+    loader: tokenLoader,
     children: [
       {
         index: true,
