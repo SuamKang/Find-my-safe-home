@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
 
-import BoardNavigation from "../../components/board/BoardNavigation";
+import PageContent from "../../components/layouts/main/PageContent";
+import BoardNavbar from "../../components/board/BoardNavbar";
 
 const BoardRootLayout = () => {
   return (
-    <>
-      <BoardNavigation />
+    <PageContent>
+      <BoardNavbar />
       <Outlet />
-    </>
+    </PageContent>
   );
 };
 

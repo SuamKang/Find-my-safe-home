@@ -1,0 +1,47 @@
+.board__wrap {
+  margin: 32px auto;
+  width: 80%;
+  background-color: var(--color-gray-100);
+  border-radius: 20px;
+}
+
+.board__wrap h1 {
+  padding: 50px;
+}
+
+.board__list {
+  width: 80%;
+  height: 500px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.board__item a {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+  background-color: var(--color-gray-400);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.board__item a:hover {
+  transform: scale(1.02);
+  background-color: var(--color-gray-500);
+}
+
+.board__item img {
+  width: 33%;
+  object-fit: cover; /*너비만큼 꽉*/
+}
+
+.board__item h2 {
+  margin: 0 0 16px 0;
+}
+
+.content {
+  padding: 16px;
+}

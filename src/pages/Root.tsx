@@ -7,7 +7,7 @@ import Header from "../components/layouts/header/Header";
 import Footer from "../components/layouts/footer/Footer";
 
 import { useAppDispatch } from "../redux/hooks";
-import { authAction } from "../redux/actions/auth-action";
+import { asyncAuthActions } from "../redux/actions/auth-action";
 import { getTokenFromSessionStorage } from "../shared/token";
 const RootLayout = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ const RootLayout = () => {
 
     if (token && is_session) {
       // 토큰이 있고 세션에 인증이 있으면
-      dispatch(authAction.logInCheckFB());
+      dispatch(asyncAuthActions.logInCheckFB());
     }
   }, [dispatch, location.pathname]);
 
