@@ -1,4 +1,3 @@
-import { app } from "../../shared/firebase";
 import { FirebaseError } from "firebase/app";
 import {
   getAuth,
@@ -11,17 +10,16 @@ import {
   browserLocalPersistence,
 } from "firebase/auth"; // 파이어베이스 인증에 필요한 메서드들
 
-import { AppDispatch } from "../index"; // type
 import {
   saveTokenToSessionStorage,
   getTokenFromSessionStorage,
   removeTokenFromSessionStorage,
 } from "../../shared/token";
 import { authActions } from "../slices/auth-slice";
-import { apiKey } from "../../shared/firebase";
+import { app, apiKey } from "../../shared/firebase";
+import { AppDispatch } from "../index"; // type
 
 const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
-
 const { setUser, logout } = authActions;
 
 // 회원가입 액션 생성자 함수
@@ -174,7 +172,7 @@ const logOutFB = () => {
 };
 
 // 비동기 엑션을 정의한 엑션 출력
-export const authAction = {
+export const asyncAuthActions = {
   signUpFB,
   logInFB,
   checkRefreshToken,

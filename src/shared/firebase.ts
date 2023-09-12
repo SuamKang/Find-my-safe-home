@@ -1,10 +1,10 @@
-// firebase 스니펫 추가하여 config 설정해주기
 import { initializeApp } from "firebase/app";
-
+import { getDatabase } from "firebase/database"; // realtime database 설정
 // vite 환경변수 설정 셋팅
 const {
   VITE_FIREBASE_API_KEY,
   VITE_FIREBASE_AUTH_DOMAIN,
+  VITE_FIREBASE_DATABASE_URL,
   VITE_FIREBASE_PROJECT_ID,
   VITE_FIREBASE_STORAGE_BUCKET,
   VITE_FIREBASE_MESSAGING_SENDER_ID,
@@ -12,9 +12,12 @@ const {
 } = import.meta.env;
 
 // 현재 프로젝트 파이어베이스 config
+//config 파일은 내 파이어베이스 프로젝트의 API key나, authDomain 등을 저장하고, 해당 정보로 firebase 메서드를 초기화하기 위한 것. 마지막 줄에 원하는 이름의 변수로 파이어베이스 앱을 초기화해 export 시켜주면, 다른 ts 파일에서 불러와 다양한 메서드를 사용할 수 있게 된다.
+
 const firebaseConfig = {
   apiKey: VITE_FIREBASE_API_KEY,
   authDomain: VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: VITE_FIREBASE_DATABASE_URL,
   projectId: VITE_FIREBASE_PROJECT_ID,
   storageBucket: VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: VITE_FIREBASE_MESSAGING_SENDER_ID,
@@ -23,6 +26,7 @@ const firebaseConfig = {
 
 // 파이어 베이스 초기화
 export const app = initializeApp(firebaseConfig);
+export const db = getDatabase(app);
 
 export const apiKey = firebaseConfig.apiKey;
 

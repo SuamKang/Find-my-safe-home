@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-
+import boardReducer from "./slices/board-slice";
 import authReducer from "./slices/auth-slice";
 
 // 전역으로 관리되어야할 상태 생각해보자
@@ -8,7 +8,7 @@ import authReducer from "./slices/auth-slice";
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    // board: boardSlice.reducer,
+    board: boardReducer,
   },
 });
 
