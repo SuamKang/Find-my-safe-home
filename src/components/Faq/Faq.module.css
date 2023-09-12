@@ -1,0 +1,89 @@
+.faq__title {
+  position: sticky;
+  top: 60px;
+  left: 0;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+.faq__title h2 {
+  width: 70%;
+  height: 5vw;
+  font-size: 4vw;
+  font-weight: 900;
+  line-height: 1.6;
+  font-family: var(--mainKor-font);
+  text-transform: uppercase;
+  color: var(--color-primary-600);
+  border-bottom: 0.4vw solid var(--color-primary-600);
+  z-index: 999;
+}
+
+.faq__title em {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 2;
+}
+
+.faq__wrap {
+  width: 80%;
+  margin: 50px auto 0;
+  padding: 20px;
+  background-color: var(--color-gray-100);
+  border-radius: 20px;
+}
+
+.faq__item {
+  margin: 20px auto;
+}
+
+/*인풋요소 id값에 "faq"값 포함된 인풋 전부선택*/
+.faq__item input[id*="faq"] {
+  display: none;
+}
+
+.faq__item input[id*="faq"] + label {
+  display: block;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: var(--color-primary-700);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  position: relative;
+}
+
+/*label안 화살표아이콘처럼 사용하기위한 em태그 스타일 적용*/
+.faq__item input[id*="faq"] + label em {
+  position: absolute;
+  top: 48%;
+  right: 30px;
+
+  width: 30px;
+  height: 30px;
+  margin-top: -15px; /*아이콘 가운대로*/
+
+  display: inline-block;
+}
+
+.faq__item input[id*="faq"] + label + div {
+  max-height: 0; /*초기 최대높이를 없애기*/
+  transition: all 0.3s;
+  overflow: hidden; /*컨텐츠 숨겨놓기*/
+  background-color: #fff;
+  font-size: 13px;
+}
+
+.faq__item input[id*="faq"] + label + div p {
+  display: inline-block;
+  padding: 20px;
+}
+
+/*라벨 클릭시 컨텐츠 보여지게 스타일*/
+.faq__item input[id*="faq"]:checked + label + div {
+  max-height: 100px;
+}

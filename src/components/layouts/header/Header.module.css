@@ -2,7 +2,7 @@
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 9999;
+  z-index: 99999;
 
   width: 100%;
   padding: 0 48px;
@@ -52,11 +52,11 @@
 
   .list li {
     text-align: center;
-    padding: 5px 0;
+    padding: 8px 0;
   }
 
   .toggle {
-    display: block;
+    display: none;
     cursor: pointer;
   }
 
@@ -67,20 +67,24 @@
     align-items: center;
 
     position: absolute;
-    top: 100%;
+    top: -400%;
     left: 0;
     width: 100%;
 
     background-color: #fff;
-    border-top: 1px solid var(--color-gray-300);
     box-shadow: 1px 2px 9px rgba(0, 0, 0, 0.3);
 
-    transform: scaleY(0);
-    transform-origin: top center;
-    transition: transform 0.3s ease-in;
+    /* transform: scaleY(0);
+    transform-origin: top center; */ /*transform의 scaleY속성을 사용하면 반응형사이즈로 돌아올때 잠깐 펴졌다가 올라가는 현상 발생*/
+    transition: all 0.3s ease;
   }
 
   .open {
-    transform: scaleY(1);
+    /* transform: scaleY(1); */
+    top: 100%;
+  }
+
+  .toggle {
+    display: block;
   }
 }

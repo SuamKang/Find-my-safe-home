@@ -3,7 +3,7 @@ import { Form, useNavigate, Link } from "react-router-dom";
 
 import { emailCheck, passwordCheck } from "../../shared/validatioin";
 import { useAppDispatch } from "../../redux/hooks";
-import { authAction } from "../../redux/actions/auth-action";
+import { asyncAuthActions } from "../../redux/actions/auth-action";
 import { errorMessage } from "../../shared/validatioin";
 
 import classes from "./Login.module.css";
@@ -73,7 +73,7 @@ const LoginForm = () => {
       errorData["email"] !== "invalidEmail" &&
       errorData["password"] !== "invalidPw"
     ) {
-      dispatch(authAction.logInFB(email, password));
+      dispatch(asyncAuthActions.logInFB(email, password));
       navigate("/");
     }
   };

@@ -1,8 +1,7 @@
 .content {
   height: auto;
   min-height: 100%;
-
   margin: auto 0;
   /* 푸터 높이만큼 패딩주기 */
-  padding: 140px 0 140px;
+  padding: 140px 16px 140px;
 }

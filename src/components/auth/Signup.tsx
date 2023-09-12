@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Form, Link, useNavigate } from "react-router-dom";
 
 import { useAppDispatch } from "../../redux/hooks";
-import { authAction } from "../../redux/actions/auth-action"; // 비동기 엑션
+import { asyncAuthActions } from "../../redux/actions/auth-action"; // 비동기 엑션
 import {
   userNameCheck,
   emailCheck,
@@ -101,7 +101,7 @@ const SignupForm = () => {
       errorData["password"] !== "invalidPw" &&
       errorData["confirmPassword"] !== "invalidConfirmPW"
     ) {
-      dispatch(authAction.signUpFB(email, password, userName));
+      dispatch(asyncAuthActions.signUpFB(email, password, userName));
       navigate("/login"); // 리덕스에서가 아닌 컴포넌트내부에서 리디렉션
     } else {
       return alert("양식을 다시 확인해 주세요.");
