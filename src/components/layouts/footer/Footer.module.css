@@ -82,7 +82,8 @@
 
   .topLeft {
     width: 100%;
-    flex-direction: column;
+    flex-direction: row;
+    padding: 20px;
   }
 
   .topRight {
@@ -92,6 +93,9 @@
     justify-content: center;
     border-left: none;
     border-top: 1px solid var(--color-gray-400);
+  }
+  .topRight > div h3 {
+    margin-top: 20px;
   }
 
   .use-stack {
