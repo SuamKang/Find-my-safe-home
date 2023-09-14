@@ -1,38 +1,50 @@
-import { useNavigate } from "react-router-dom";
 import { app, db } from "../../shared/firebase"; // 초기화한 app에서 가져온 DB
 import {
   ref,
   set,
   get,
-  onValue,
-  DataSnapshot,
   remove,
   push,
+  onChildAdded,
+  onChildChanged,
+  onChildRemoved,
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
-import { AppDispatch } from "../index";
+import store, { AppDispatch } from "../index";
 import { boardActions } from "../slices/board-slice";
 
-import { PostFormData } from "../../shared/types";
-// 게시판 노드 이름 => "/board"
+import { BoardTypes, PostFormData } from "../../shared/types";
 
 const { addPost, editPost, removePost, setPost } = boardActions;
 
-// const dbRef = ref(getDatabase());
-// get(child(dbRef, `users/${userId}`)).then((snapshot) => {
-//   if (snapshot.exists()) {
-//     console.log(snapshot.val());
-//   } else {
-//     console.log("No data available");
-//   }
-// }).catch((error) => {
-//   console.error(error);
-// });
+// Firebase Realtime Database에 대한 리스너 설정
+const setupFBListeners = (dispatch: AppDispatch) => {
+  const postsRef = ref(db, "/posts");
+
+  // 새로운 게시글 추가 이벤트
+  onChildAdded(postsRef, (snapshot) => {
+    const data = snapshot.val();
+    dispatch(addPost(data));
+  });
+  // 게시글 수정 이벤트
+  onChildChanged(postsRef, (snapshot) => {
+    const data = snapshot.val();
+    console.log(data);
+    dispatch(editPost(data)); // 리덕스 스토어에서 해당 게시글 수정
+  });
+
+  // 게시글 삭제 이벤트
+  onChildRemoved(postsRef, (snapshot) => {
+    const removePostId = snapshot.key;
+    dispatch(removePost(removePostId)); // 리덕스 스토어에서 해당 게시글 삭제
+  });
+};
 
 // 전체 게시글 Read
 export const getPostsFB = () => {
   return async (dispatch: AppDispatch) => {
+    dispatch(setPost([]));
     // firebase의 ref와 onValue함수사용
     const postsRef = ref(db, "/posts");
 
@@ -51,59 +63,43 @@ export const getPostsFB = () => {
       dispatch(setPost([]));
     }
 
-    // 실시간 업데이트 로직 -> onValue 관찰자 사용
-    onValue(postsRef, (snapshot: DataSnapshot) => {
-      const data = snapshot.val();
-      // console.log(data);
-
-      if (data) {
-        // 데이터 배열로 정제하여 디스패치
-        const postsArray = Object.values(data);
-        dispatch(setPost(postsArray));
-      } else {
-        // 없으면 초기화
-        dispatch(setPost([]));
-      }
-    });
+    // Firebase Realtime Database 리스너 설정
+    setupFBListeners(dispatch);
   };
 };
 
 // 특정 게시글 Read
 export const getPostFB = (postId: string | undefined) => {
   return async (dispatch: AppDispatch) => {
+    dispatch(setPost([]));
+
     const postRef = ref(db, `/posts/${postId}`);
 
     try {
+      // 한번만 데이터 가져오기
       const snapshot = await get(postRef);
 
+      // 해당 스냅샷 존재하면 그때 데이터 추출
       if (snapshot.exists()) {
         const data = snapshot.val();
         const postArray = [data]; // 객체 데이터 배열로 감싸기
-        console.log(postArray);
         dispatch(setPost(postArray));
-      } else {
-        dispatch(setPost([]));
       }
     } catch (error) {
-      console.error("해당 게시글 불러오기 오류발생", error);
+      dispatch(setPost([]));
     }
+
+    // Firebase Realtime Database 리스너 설정
+    setupFBListeners(dispatch);
   };
 };
 
 // 게시글 Wirte
 export const addPostFB = (newPost: PostFormData) => {
-  return async (dispatch: AppDispatch) => {
+  return async () => {
     // firebase 인증 서비스를 사용해 현재 로그인한 사용자 uid 가져오기
     const auth = getAuth(app);
     const user = auth.currentUser;
-
-    if (!user) {
-      console.error("로그인을 해야합니다.");
-      const navigate = useNavigate();
-      navigate("/login");
-      return;
-    }
-
     const { title, image, description, date } = newPost;
 
     // 데이터페이스 저장
@@ -113,7 +109,7 @@ export const addPostFB = (newPost: PostFormData) => {
       const pid = newPostRef.key; // 새로 생성된 게시글의 고유 id 추출
 
       await set(newPostRef, {
-        userId: user.uid,
+        userId: user?.uid,
         pid,
         title,
         image,
@@ -122,8 +118,6 @@ export const addPostFB = (newPost: PostFormData) => {
       });
 
       console.log("게시글이 성공적으로 추가되었습니다!");
-      // 성공시 리덕스 추가
-      dispatch(addPost({ userId: user.uid, pid, ...newPost }));
     } catch (error) {
       console.error("게시글 추가중 오류가 발생하였습니다.", error);
     }
@@ -135,15 +129,12 @@ export const editPostFB = (
   postId: string | undefined,
   updatedPost: Partial<PostFormData>
 ) => {
-  return async (dispatch: AppDispatch) => {
+  return async () => {
     const postRef = ref(db, `/posts/${postId}`);
 
     try {
       // 데이터베이스 데이터 수정
       await set(postRef, updatedPost);
-      console.log("해당 게시글 수정 완료!");
-
-      dispatch(editPost(updatedPost));
     } catch (error) {
       console.error("게시글 수정중 오류가 발생하였습니다.", error);
     }
@@ -152,16 +143,25 @@ export const editPostFB = (
 
 // 게시글 Remove
 export const removePostFB = (postId: string | undefined) => {
-  return async (dispatch: AppDispatch) => {
+  return async () => {
     const postRef = ref(db, `/posts/${postId}`);
 
     try {
       // 데이터베이스안의 postId에 해당하는 데이터 삭제
       await remove(postRef);
-      console.log("해당 게시글 삭제 완료!");
 
-      // 리듀서에 payload로 id를 전달했기에 해당 id를 제외한 나머지 게시글 배열로 정제 해주어야함
-      dispatch(removePost(postId));
+      const state = store.getState();
+
+      const removePostReducer = (
+        state: BoardTypes,
+        postIdToRemove: string | undefined
+      ) => {
+        const updatedPosts = state.posts.filter(
+          (post) => post.pid !== postIdToRemove
+        );
+        state.posts = updatedPosts;
+      };
+      removePostReducer(state.board, postId);
     } catch (error) {
       console.error("게시글 삭제 중 오류가 발생하였습니다.", error);
     }
@@ -189,3 +189,18 @@ export const asyncBoardActions = {
 // getPostsFB 수정코드
 
 // 즉 정리하면, 초기 한번의 데이터 가져오기는 'get'메서드로 수행하고, 그 후엔 'onValue'메서드를 사용하여 실시간 업데이트를 진행한다.
+
+// // 실시간 업데이트 로직 -> onValue 관찰자 사용
+// onValue(postsRef, (snapshot: DataSnapshot) => {
+//   const data = snapshot.val();
+//   // console.log(data);
+
+//   if (data) {
+//     // 데이터 배열로 정제하여 디스패치
+//     const postsArray = Object.values(data);
+//     dispatch(setPost(postsArray));
+//   } else {
+//     // 없으면 초기화
+//     dispatch(setPost([]));
+//   }
+// });

@@ -12,17 +12,23 @@ const boardSlice = createSlice({
   initialState,
   reducers: {
     addPost(state, action: PayloadAction<PostProps>) {
-      state.posts.push(action.payload);
+      // 새로운 게시글(객체)데이터를 기존 데이터와 병합
+      state.posts = [...state.posts, action.payload];
     },
     editPost(state, action) {
-      // action.payload에는 수정된 게시글로 배열을 대체
-      state.posts = action.payload;
+      //
+      const updatePostIndex = state.posts.findIndex(
+        (post) => post.pid === action.payload.pid
+      );
+      if (updatePostIndex !== -1) {
+        state.posts[updatePostIndex] = action.payload;
+      }
     },
     removePost(state, action) {
-      // action.payload에는 삭제된 게시글을 제외한 게시글 목록으로 대체
-      state.posts = action.payload;
+      state.posts.filter((post) => post.pid !== action.payload);
     },
     setPost(state, action) {
+      // 새로 받은 데이터 배열을 기존 스토어 데이터와 병합
       state.posts = action.payload;
     },
   },

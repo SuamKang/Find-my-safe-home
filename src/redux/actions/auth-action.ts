@@ -7,7 +7,7 @@ import {
   signOut,
   updateProfile,
   setPersistence,
-  browserLocalPersistence,
+  browserSessionPersistence,
 } from "firebase/auth"; // 파이어베이스 인증에 필요한 메서드들
 
 import {
@@ -16,11 +16,15 @@ import {
   removeTokenFromSessionStorage,
 } from "../../shared/token";
 import { authActions } from "../slices/auth-slice";
-import { app, apiKey } from "../../shared/firebase";
+import { app } from "../../shared/firebase";
 import { AppDispatch } from "../index"; // type
 
-const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
 const { setUser, logout } = authActions;
+
+// 회원 정보 수정 엑션 생성자 함수
+// 마이페이지에서 사용자 수정하기할때, 이름,이메일, 비밀번호, 사진을 수정가능하게 하는 함수를 구성해야함. ->
+
+// export const userProfileUpdatedFB = () => {}
 
 // 회원가입 액션 생성자 함수
 export const signUpFB = (email: string, password: string, userName: string) => {
@@ -34,6 +38,7 @@ export const signUpFB = (email: string, password: string, userName: string) => {
         password
       );
       const user = userCredential.user;
+      console.log(user.photoURL);
       // 사용자가 로그인 한 경우에만 updateProfile호출
       if (user) {
         if (!user.displayName) {
@@ -71,8 +76,6 @@ export const logInFB = (enteredEmail: string, enteredPassword: string) => {
     const auth = getAuth(app);
 
     try {
-      //browserSessionPersistence메서드로 현재 세션에 대해서만 사용자의 인증 상태를 유지하기 위해 지속성을 으로 설정.
-      await setPersistence(auth, browserLocalPersistence);
       const userCredential = await signInWithEmailAndPassword(
         auth,
         enteredEmail,
@@ -104,21 +107,26 @@ export const logInFB = (enteredEmail: string, enteredPassword: string) => {
 // 로그인 상태 체크 엑션 생성자 함수
 export const logInCheckFB = () => {
   return async (dispatch: AppDispatch) => {
+    // console.log("로그인 체크 엑션 함수 호출됨");
     const auth = getAuth(app);
+    //browserSessionPersistence메서드로 현재 세션에 대해서만 사용자의 인증 상태를 유지하기 위해 지속성을 으로 설정.
+    // 여기서 한동안 애를먹었다.
+    // 로그인 하고 로그인 상태를 세션스토리지에 저장하고 있었는데 새로고침하면 사라지는 경우가 발생해서 파이어베이스 SDK 초기화 업데이트도 해보고, 토큰이 잘 받아와지는건지도 확인해보고, 최상위 라우터에서 useEffect가 잘 호출이 되는지도 확인해봤는데, 문제가 없었다...
+    // 좌절했던 순간! 로그인상태를 계속 확인해줄 RootLayout컴포넌트의 useEffect에서 호출하는 logInCheckFB 엑션을 다시 보았다. onAuthStateChanged는 로그인한 유저가 맞는지 확인해주는 메소드이며, 이를 확인해서 로그인 상태관리를 진행한다.
+    // 내가 setPersistence메소드를 사용해야 인증 지속성 여부를 체크할 수 있다는 정보는 알았지만, 어떤 함수 내부로직에 포함시켜야 할지를 매우 고민했다.
+    // 고민한 결과, 기존엔 로그인 액션생성자함수 내부 로직안에서 수행했는데, 이게 아니였다. 사실 setPersistance를 로그인 한 유저의 데이터를 담겨있는 세션스토리지를 파이어베이스 인증함수가 확인후에 이걸 auth, browserSessionPersistence로 기억해서 객체가 올바르게 저장됨을 유지할 것이라는 사실을 깨달았다.
+    // 그이후에 아래 코드를 logInCheckFB로 옮겨주었더니 정상적으로 새로고침 계속해도 유저정보가 남아있다! 야호!!! -> 헤결
+    await setPersistence(auth, browserSessionPersistence);
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // payload: {
-        //   user_name: user.displayName,
-        //   user_profile: "",
-        //   id: user.email,
-        //   uid: user.uid,
-        // },
+        // console.log("사용자 정보 확인", user);
         const { email, displayName, uid } = user;
         const userInfo = { email, displayName, uid };
 
         dispatch(setUser(userInfo));
       } else {
+        console.log("로그아웃 상태입니다.");
         dispatch(logout());
       }
     });
@@ -164,7 +172,7 @@ const logOutFB = () => {
       await signOut(auth);
 
       dispatch(logout());
-      removeTokenFromSessionStorage(_session_key);
+      removeTokenFromSessionStorage();
     } catch (error) {
       console.error("Error signing out:", error);
     }
