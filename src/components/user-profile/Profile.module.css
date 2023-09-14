@@ -1,0 +1,83 @@
+#profile {
+  padding: 16px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.profile__inner {
+  width: 50%;
+  height: 70vh;
+  text-align: center;
+  border-right: 2px solid var(--color-gray-900);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile__info {
+  width: 80%;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.profile__info h2 {
+  margin-top: 30px;
+}
+
+.profile__img {
+  width: 150px;
+  height: 150px;
+  margin: 30px auto;
+  border-radius: 50%;
+  background-color: var(--color-gray-200);
+  background-size: cover;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 50px auto;
+}
+
+.description span {
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.profile__actions {
+  margin: 50px auto 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.profile__actions button {
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.profile__actions button:hover {
+  color: var(--color-primary-900);
+  font-weight: 800;
+  text-decoration: underline;
+  transform: scale(1.07);
+  background-color: transparent;
+}
+
+/*체크리스트 박스 전체 크기 여기서 규정*/
+.checkList {
+  width: 50%;
+  height: 70vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
