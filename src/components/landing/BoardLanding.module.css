@@ -46,12 +46,12 @@
 }
 
 .board__item.b3 {
-  background-color: var(--color-primary-300);
+  background-color: var(--color-gray-200);
   top: 220px;
 }
 
 .board__item .num {
-  font-size: 5vw;
+  font-size: 80px;
   line-height: 1;
   font-weight: 900;
   font-family: var(--mainNum-font);
@@ -64,21 +64,21 @@
 
 .board__item .leftSide {
   width: 50%;
+  margin-left: 40px;
   text-align: center;
 }
 
 .board__item .rightSide {
   width: 50%;
+  margin-right: 40px;
   text-align: center;
 }
 
 /*섹션 왼쪽 사이드 컨텐츠*/
 .board__item .leftSide:nth-child(2) > div {
   font-size: 3vw;
-  line-height: 1;
+  line-height: 1.4;
   font-weight: 900;
-  text-transform: uppercase;
-  text-decoration: underline;
   font-family: var(--mainEng-font);
   color: #fff;
 }
@@ -87,10 +87,8 @@
 .board__item .rightSide:nth-child(1) > div,
 .board__item .rightSide:nth-child(3) > div {
   font-size: 3vw;
-  line-height: 1;
+  line-height: 1.4;
   font-weight: 900;
-  text-transform: uppercase;
-  text-decoration: underline;
   font-family: var(--mainEng-font);
 }
 
@@ -103,12 +101,24 @@
   margin-bottom: 16px;
 }
 
+.board__item .btn {
+  margin: 30px auto;
+  border-radius: 20px;
+  color: black;
+}
+.board__item .btn:hover {
+  transform: scale(1.07);
+}
+
 .board__item .btn a {
-  text-transform: uppercase;
-  color: var(--black200);
-  font-size: 1rem;
+  font-size: 16px;
+  color: var(--color-gray-900);
   transition: all 0.3s;
   margin: 0 2px;
+}
+
+.board__item .leftSide:nth-child(2) > .btn a {
+  color: #fff;
 }
 
 @media (max-width: 768px) {
@@ -122,6 +132,12 @@
     z-index: 9999;
   }
 
+  .board__item .leftSide:nth-child(2) > div,
+  .board__item .rightSide:nth-child(1) > div,
+  .board__item .rightSide:nth-child(3) > div {
+    font-size: 15px;
+  }
+
   .board__item.b1 {
     top: 140px;
   }
@@ -133,7 +149,7 @@
   }
 
   .board__item .num {
-    font-size: 80px;
+    font-size: 50px;
     left: 20px;
     top: 20px;
   }

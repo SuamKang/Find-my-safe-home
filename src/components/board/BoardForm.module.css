@@ -40,7 +40,7 @@
 .actions button {
   font: inherit;
   cursor: pointer;
-  padding: 0.5rem 1.5rem;
+  padding: 8px 24px;
   border-radius: 20px;
   background-color: var(--color-gray-200);
   color: var(--color-gray-800);

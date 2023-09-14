@@ -32,7 +32,7 @@
 }
 
 .nav__inner nav {
-  margin: 40px auto;
+  margin: 30px auto;
 }
 
 .nav__list {
@@ -42,17 +42,20 @@
   gap: 50px;
 }
 
-.nav__inner a {
+.nav__inner a,
+.nav__inner span {
   background-color: var(--color-primary-200);
   color: var(--color-primary-900);
   font-weight: 600;
-
+  cursor: pointer;
   padding: 12px 24px;
   border-radius: 20px;
   text-decoration: none;
 }
 
 .nav__inner a:hover,
-.nav__inner a:active {
+.nav__inner span:hover,
+.nav__inner a:active,
+.nav__inner span:hover {
   background-color: var(--color-sub-400);
 }
