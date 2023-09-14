@@ -1,12 +1,13 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import classes from "./BoardItem.module.css";
 import { PartialPost } from "../../shared/types";
 import { useAppDispatch } from "../../redux/hooks";
 import { asyncBoardActions } from "../../redux/actions/board-action";
 
+import classes from "./BoardItem.module.css";
+
 const BoardItem = ({ post }: { post?: PartialPost }) => {
-  const { postId } = useParams();
+  const { postId } = useParams<{ postId: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -15,19 +16,23 @@ const BoardItem = ({ post }: { post?: PartialPost }) => {
 
     if (dobblecheck) {
       dispatch(asyncBoardActions.removePostFB(postId));
-      navigate("board");
+      navigate("/board");
     }
   };
 
   return (
-    <article>
-      <img src={post?.image} alt={post?.title} />
+    <article className={classes.post}>
       <h1>{post?.title}</h1>
-      <time>{post?.date}</time>
-      <p>{post?.description}</p>
-      <menu className={classes.actions}>
-        <Link to="edit">Edit</Link>
-        <button onClick={removePostHandler}>Delete</button>
+      <div className={classes.post__content}>
+        <img src={post?.image} alt={post?.title} />
+        <time>{post?.date}</time>
+        <p>{post?.description}</p>
+      </div>
+      <menu className={classes.post__actions}>
+        <Link to="edit-post">수정</Link>
+        <div id="button" onClick={removePostHandler}>
+          삭제
+        </div>
       </menu>
     </article>
   );
