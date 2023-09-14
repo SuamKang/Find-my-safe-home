@@ -26,7 +26,7 @@ const Intro = () => {
             <img src={home} alt="home-Img" />
           </div>
           <button type="button" className={classes.loginBtn}>
-            <Link to="login">체험하기</Link>
+            <Link to="/login">체험하기</Link>
           </button>
         </div>
         <div
