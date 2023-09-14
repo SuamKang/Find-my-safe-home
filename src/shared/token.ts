@@ -1,6 +1,5 @@
 import { redirect } from "react-router-dom";
 import { checkRefreshToken } from "../redux/actions/auth-action";
-
 import { apiKey } from "./firebase";
 
 const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
@@ -14,15 +13,15 @@ export const saveTokenToSessionStorage = (token: string) => {
 export const getTokenFromSessionStorage = () => {
   const getToken = sessionStorage.getItem(_session_key);
   if (!getToken) {
-    return checkRefreshToken();
+    checkRefreshToken();
   }
   // console.log(getToken);
   return getToken;
 };
 
 // 토큰을 세션 스토리지에서 지우는 함수
-export const removeTokenFromSessionStorage = (token: string) => {
-  sessionStorage.removeItem(token);
+export const removeTokenFromSessionStorage = () => {
+  sessionStorage.removeItem(_session_key);
 };
 
 // 토큰 불러오는 함수 -> 라우팅 하기위함
