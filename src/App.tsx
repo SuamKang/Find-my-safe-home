@@ -19,6 +19,8 @@ import { tokenLoader } from "./shared/token";
 
 // 리엑트 라우터 V6.4업데이트 후 createBrowserRouter 지원
 // 공식문서에 나온 예제대로 createBrowserRouter첫번째 인자로 객체형식의 라우터 지정
+
+// 경로 절대경로로 우선 다 교체하자.
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,55 +30,55 @@ const router = createBrowserRouter([
     loader: tokenLoader,
     children: [
       {
-        index: true,
+        path: "/",
         element: <HomePage />,
       },
       {
-        path: "login",
+        path: "/login",
         element: <LoginPage />,
       },
       {
-        path: "signup",
+        path: "/signup",
         element: <SignupPage />,
       },
       {
-        path: "profile",
+        path: "/profile",
         element: <MyprofilePage />,
       },
       {
-        path: "board",
+        path: "/board",
         element: <BoardRootLayout />,
         children: [
           {
-            index: true,
+            path: "/board",
             element: <BoardPage />,
           },
           {
-            path: ":postId",
+            path: "/board/:postId",
             id: "post-detail",
             children: [
               {
-                index: true,
+                path: "/board/:postId",
                 element: <PostPage />,
               },
               {
-                path: "edit-post",
+                path: "/board/:postId/edit-post",
                 element: <EditPostPage />,
               },
             ],
           },
           {
-            path: "new-post",
+            path: "/board/new-post",
             element: <NewPostPage />,
           },
         ],
       },
       {
-        path: "news",
+        path: "/news",
         element: <NewsPage />,
       },
       {
-        path: "faq",
+        path: "/faq",
         element: <FaqPage />,
       },
     ],
