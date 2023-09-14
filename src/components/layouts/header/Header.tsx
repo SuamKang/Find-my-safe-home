@@ -7,17 +7,34 @@ import Logo from "./Logo";
 
 import { IconContext } from "react-icons";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { asyncAuthActions } from "../../../redux/actions/auth-action";
 
 // 이제 로그인 상태또한 설정완료했으니 프로필 페이지 구성하고 그 안에서 로그아웃 할 수 있는 버튼을 만들자
 
 const Header = () => {
   const isLogin = useAppSelector((state) => state.auth.isLogin);
+  const dispatch = useAppDispatch();
   // console.log(isLogin);
   const [isToggleOpen, setIsToggleOpen] = useState(false);
 
+  // 토글 핸들러
   const toggleHandler = () => {
-    setIsToggleOpen(!isToggleOpen);
+    setIsToggleOpen((prev) => !prev);
+  };
+
+  // 토글 드롭다운 메뉴 취소 헨들러
+  const closeDrodownMenu = () => {
+    setIsToggleOpen(false);
+  };
+
+  // 로그아웃 헨들러
+  const logoutHandler = () => {
+    const dobbleCheck = window.confirm("정말 로그아웃 할꺼에요?");
+
+    if (dobbleCheck) {
+      dispatch(asyncAuthActions.logOutFB());
+    }
   };
 
   return (
@@ -28,23 +45,32 @@ const Header = () => {
       <nav className={`${classes.nav} ${isToggleOpen ? classes.open : ""}`}>
         <ul className={classes.list}>
           {isLogin ? (
-            <li>
-              <NavLink
-                to="profile"
-                className={({ isActive }) =>
-                  isActive ? classes.active : undefined
-                }
-              >
-                프로필
-              </NavLink>
-            </li>
+            <>
+              <li>
+                <button type="button" onClick={logoutHandler}>
+                  로그아웃
+                </button>
+              </li>
+              <li>
+                <NavLink
+                  to="/profile"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                  onClick={closeDrodownMenu}
+                >
+                  프로필
+                </NavLink>
+              </li>
+            </>
           ) : (
             <li>
               <NavLink
-                to="login"
+                to="/login"
                 className={({ isActive }) =>
                   isActive ? classes.active : undefined
                 }
+                onClick={closeDrodownMenu}
               >
                 로그인
               </NavLink>
@@ -53,30 +79,33 @@ const Header = () => {
 
           <li>
             <NavLink
-              to="news"
+              to="/news"
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
+              onClick={closeDrodownMenu}
             >
               뉴스소식
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="board"
+              to="/board"
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
+              onClick={closeDrodownMenu}
             >
               자유게시판
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="faq"
+              to="/faq"
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
+              onClick={closeDrodownMenu}
             >
               FAQ
             </NavLink>
