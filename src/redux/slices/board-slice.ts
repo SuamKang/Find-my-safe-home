@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { BoardTypes, PostProps } from "../../shared/types";
+import { createSlice } from "@reduxjs/toolkit";
+import { BoardTypes } from "../../shared/types";
 
 const initialState: BoardTypes = {
   posts: [],
@@ -11,22 +11,21 @@ const boardSlice = createSlice({
   name: "board",
   initialState,
   reducers: {
-    addPost(state, action: PayloadAction<PostProps>) {
-      // 새로운 게시글(객체)데이터를 기존 데이터와 병합
-      state.posts = [...state.posts, action.payload];
-    },
-    editPost(state, action) {
-      //
-      const updatePostIndex = state.posts.findIndex(
-        (post) => post.pid === action.payload.pid
-      );
-      if (updatePostIndex !== -1) {
-        state.posts[updatePostIndex] = action.payload;
-      }
-    },
-    removePost(state, action) {
-      state.posts.filter((post) => post.pid !== action.payload);
-    },
+    // addPost(state, action: PayloadAction<PostProps>) {
+    //   // 새로운 게시글(객체)데이터를 기존 데이터와 병합
+    //   state.posts = [...state.posts, action.payload];
+    // },
+    // editPost(state, action) {
+    //   const updatePostIndex = state.posts.findIndex(
+    //     (post) => post.pid === action.payload.pid
+    //   );
+    //   if (updatePostIndex !== -1) {
+    //     state.posts[updatePostIndex] = action.payload;
+    //   }
+    // },
+    // removePost(state, action) {
+    //   state.posts = state.posts.filter((post) => post.pid !== action.payload);
+    // },
     setPost(state, action) {
       // 새로 받은 데이터 배열을 기존 스토어 데이터와 병합
       state.posts = action.payload;

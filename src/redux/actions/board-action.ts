@@ -1,68 +1,33 @@
 import { app, db } from "../../shared/firebase"; // 초기화한 app에서 가져온 DB
-import {
-  ref,
-  set,
-  get,
-  remove,
-  push,
-  onChildAdded,
-  onChildChanged,
-  onChildRemoved,
-} from "firebase/database";
+import { ref, set, get, remove, push, onValue } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
-import store, { AppDispatch } from "../index";
+import { AppDispatch } from "../index";
 import { boardActions } from "../slices/board-slice";
 
-import { BoardTypes, PostFormData } from "../../shared/types";
+import { PostFormData } from "../../shared/types";
 
-const { addPost, editPost, removePost, setPost } = boardActions;
+const { setPost } = boardActions;
 
 // Firebase Realtime Database에 대한 리스너 설정
 const setupFBListeners = (dispatch: AppDispatch) => {
   const postsRef = ref(db, "/posts");
 
-  // 새로운 게시글 추가 이벤트
-  onChildAdded(postsRef, (snapshot) => {
-    const data = snapshot.val();
-    dispatch(addPost(data));
-  });
-  // 게시글 수정 이벤트
-  onChildChanged(postsRef, (snapshot) => {
-    const data = snapshot.val();
-    console.log(data);
-    dispatch(editPost(data)); // 리덕스 스토어에서 해당 게시글 수정
-  });
-
-  // 게시글 삭제 이벤트
-  onChildRemoved(postsRef, (snapshot) => {
-    const removePostId = snapshot.key;
-    dispatch(removePost(removePostId)); // 리덕스 스토어에서 해당 게시글 삭제
+  // 게시글 변경 이벤트
+  onValue(postsRef, (snapshot) => {
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      const postsArray = Object.values(data);
+      dispatch(setPost(postsArray));
+    } else {
+      dispatch(setPost([]));
+    }
   });
 };
 
 // 전체 게시글 Read
 export const getPostsFB = () => {
   return async (dispatch: AppDispatch) => {
-    dispatch(setPost([]));
-    // firebase의 ref와 onValue함수사용
-    const postsRef = ref(db, "/posts");
-
-    try {
-      // 한번만 데이터 가져오기
-      const snapshot = await get(postsRef);
-
-      // 해당 스냅샷 존재하면 그때 데이터 추출
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        // 데이터 배열로 정제하여 디스패치
-        const postsArray = Object.values(data);
-        dispatch(setPost(postsArray));
-      }
-    } catch (error) {
-      dispatch(setPost([]));
-    }
-
     // Firebase Realtime Database 리스너 설정
     setupFBListeners(dispatch);
   };
@@ -71,8 +36,6 @@ export const getPostsFB = () => {
 // 특정 게시글 Read
 export const getPostFB = (postId: string | undefined) => {
   return async (dispatch: AppDispatch) => {
-    dispatch(setPost([]));
-
     const postRef = ref(db, `/posts/${postId}`);
 
     try {
@@ -82,15 +45,13 @@ export const getPostFB = (postId: string | undefined) => {
       // 해당 스냅샷 존재하면 그때 데이터 추출
       if (snapshot.exists()) {
         const data = snapshot.val();
-        const postArray = [data]; // 객체 데이터 배열로 감싸기
+        // postArray에 담기는 단건 게시글 데이터가 고유의 id가 포함되도록 설정해야한다.
+        const postArray = [{ ...data, pid: postId }];
         dispatch(setPost(postArray));
       }
     } catch (error) {
       dispatch(setPost([]));
     }
-
-    // Firebase Realtime Database 리스너 설정
-    setupFBListeners(dispatch);
   };
 };
 
@@ -130,11 +91,24 @@ export const editPostFB = (
   updatedPost: Partial<PostFormData>
 ) => {
   return async () => {
+    const auth = getAuth(app);
+    const user = auth.currentUser;
+    const { title, image, description, date } = updatedPost;
+
     const postRef = ref(db, `/posts/${postId}`);
 
     try {
+      // 해당 게시글 고유 id 다시 가져와서 게시글 생성과 같은 필드로 유지시키기
+      const pid = postRef.key;
       // 데이터베이스 데이터 수정
-      await set(postRef, updatedPost);
+      await set(postRef, {
+        userId: user?.uid,
+        pid,
+        title,
+        image,
+        description,
+        date,
+      });
     } catch (error) {
       console.error("게시글 수정중 오류가 발생하였습니다.", error);
     }
@@ -149,19 +123,7 @@ export const removePostFB = (postId: string | undefined) => {
     try {
       // 데이터베이스안의 postId에 해당하는 데이터 삭제
       await remove(postRef);
-
-      const state = store.getState();
-
-      const removePostReducer = (
-        state: BoardTypes,
-        postIdToRemove: string | undefined
-      ) => {
-        const updatedPosts = state.posts.filter(
-          (post) => post.pid !== postIdToRemove
-        );
-        state.posts = updatedPosts;
-      };
-      removePostReducer(state.board, postId);
+      console.log("게시글이 성공적으로 삭제되었습니다!");
     } catch (error) {
       console.error("게시글 삭제 중 오류가 발생하였습니다.", error);
     }
@@ -190,17 +152,20 @@ export const asyncBoardActions = {
 
 // 즉 정리하면, 초기 한번의 데이터 가져오기는 'get'메서드로 수행하고, 그 후엔 'onValue'메서드를 사용하여 실시간 업데이트를 진행한다.
 
-// // 실시간 업데이트 로직 -> onValue 관찰자 사용
-// onValue(postsRef, (snapshot: DataSnapshot) => {
-//   const data = snapshot.val();
-//   // console.log(data);
+// firebase의 ref와 onValue함수사용
+// const postsRef = ref(db, "/posts");
 
-//   if (data) {
+// try {
+//   // 한번만 데이터 가져오기
+//   const snapshot = await get(postsRef);
+
+//   // 해당 스냅샷 존재하면 그때 데이터 추출
+//   if (snapshot.exists()) {
+//     const data = snapshot.val();
 //     // 데이터 배열로 정제하여 디스패치
 //     const postsArray = Object.values(data);
 //     dispatch(setPost(postsArray));
-//   } else {
-//     // 없으면 초기화
-//     dispatch(setPost([]));
 //   }
-// });
+// } catch (error) {
+//   dispatch(setPost([]));
+// }
