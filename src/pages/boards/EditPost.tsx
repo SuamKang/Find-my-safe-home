@@ -1,19 +1,24 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import BoardForm from "../../components/board/BoardForm";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { asyncBoardActions } from "../../redux/actions/board-action";
 import { PostFormData } from "../../shared/types";
+import { useEffect } from "react";
 
 // 새로 생성할 엑션생성자를 onSubmit헨들러함수 안 로직으로 구성 => 해당 핸들러 양식컴포넌트에 props로 전달
 const EditPostPage = () => {
-  const { postId } = useParams();
-
+  const { pathname } = useLocation();
+  const { postId } = useParams<{ postId: string }>();
   const dispatch = useAppDispatch();
   // 게시판 스토어에 담긴 배열중 현재 접속한 경로와 같은 게시글 id를 가져옴
   const postData = useAppSelector((state) =>
     state.board.posts.find((post) => post.pid === postId)
   );
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   // Partial은 모든 필드를 선택적 필드로 만들어 주는 타입이다.
   // Partial(파티셜)을 이용해서 객체의 필드에 맞는 타입이 없을때 undefined가 나올 수 있는 상황에 대비하여 적용시켜서 타입에러를 해결했다. -> Partial 제네릭 형식에대한 부분 더 찾아보기
@@ -28,6 +33,7 @@ const EditPostPage = () => {
 
   const editPostHandler = (formData: Partial<PostFormData>) => {
     dispatch(asyncBoardActions.editPostFB(postId, formData));
+    console.log("게시물이 정상적으로 업데이트 되었습니다.");
     navigate(`/board/${postId}`);
   };
 
@@ -35,3 +41,5 @@ const EditPostPage = () => {
 };
 
 export default EditPostPage;
+
+// 새롭게 게시글을 수정하게되면 새롭게 작성한걸로 데이터베이스에 잘 변경은 되는데, 변경된 텍스트 혹은 데이터를 리덕스 스토어엔 업데이트 되지 않는것 같고, 해당 경로도 문제가 있어보임

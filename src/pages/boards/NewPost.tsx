@@ -1,15 +1,21 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAppDispatch } from "../../redux/hooks";
 
 import BoardForm from "../../components/board/BoardForm";
 import { PostFormData } from "../../shared/types";
 import { asyncBoardActions } from "../../redux/actions/board-action";
+import { useEffect } from "react";
 
 // 새로 생성할 엑션생성자를 onSubmit헨들러함수 안 로직으로 구성 => 해당 핸들러 양식컴포넌트에 props로 전달
 const NewPostPage = () => {
+  const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   // 초기화
   const initialFormData: Partial<PostFormData> = {

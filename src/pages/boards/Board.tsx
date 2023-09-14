@@ -2,14 +2,21 @@ import { useEffect } from "react";
 import BoardList from "../../components/board/BoardList";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { asyncBoardActions } from "../../redux/actions/board-action";
+import { useLocation } from "react-router-dom";
 
 const BoardPage = () => {
+  const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.board.posts);
 
   useEffect(() => {
     dispatch(asyncBoardActions.getPostsFB());
   }, []);
+
+  useEffect(() => {
+    // 스크롤 최상단으로
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return <BoardList posts={posts} />;
 };
