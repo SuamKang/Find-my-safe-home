@@ -17,6 +17,7 @@ export interface BoardFormProps {
 // 게시글 하나(객체) - 유저 포함
 export interface PostProps {
   userId: string | undefined | null;
+  userName: string | undefined | null;
   pid: string | undefined | null;
   title: string | undefined;
   image: string | undefined;
