@@ -61,16 +61,18 @@ export const addPostFB = (newPost: PostFormData) => {
     // firebase 인증 서비스를 사용해 현재 로그인한 사용자 uid 가져오기
     const auth = getAuth(app);
     const user = auth.currentUser;
+    const postsRef = ref(db, "/posts");
+
     const { title, image, description, date } = newPost;
 
-    // 데이터페이스 저장
-    const postsRef = ref(db, "/posts");
     try {
       const newPostRef = push(postsRef); // database 고유 id생성
       const pid = newPostRef.key; // 새로 생성된 게시글의 고유 id 추출
 
+      // 데이터페이스 저장
       await set(newPostRef, {
         userId: user?.uid,
+        userName: user?.displayName,
         pid,
         title,
         image,
@@ -103,12 +105,14 @@ export const editPostFB = (
       // 데이터베이스 데이터 수정
       await set(postRef, {
         userId: user?.uid,
+        userName: user?.displayName,
         pid,
         title,
         image,
         description,
         date,
       });
+      console.log("게시글이 성공적으로 수정되었습니다.");
     } catch (error) {
       console.error("게시글 수정중 오류가 발생하였습니다.", error);
     }
