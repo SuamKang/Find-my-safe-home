@@ -6,18 +6,24 @@ import { checkDataType } from "../../shared/types";
 import classes from "./CheckItem.module.css";
 
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import { useAppSelector } from "../../redux/hooks";
 import {
   RiCheckboxBlankCircleLine,
   RiCheckboxCircleFill,
 } from "react-icons/ri";
 
-const CheckItem = ({ cid, text, done }: checkDataType) => {
+const CheckItem = ({ userId, cid, text, done }: checkDataType) => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+  console.log(user?.uid);
 
   // 수정 버튼 클릭 여부 상태관리
   const [isReadyChangeText, setIsReadyChangeText] = useState(false);
   const [updatedText, setUpdatedText] = useState(text);
   const [updatedDone, setUpdatedDone] = useState(done);
+
+  // 작성한 유저 여부
+  const isRightUser = user?.uid === userId;
 
   const changeDoneHanlder = () => {
     setUpdatedDone(!updatedDone);
@@ -69,59 +75,63 @@ const CheckItem = ({ cid, text, done }: checkDataType) => {
   };
 
   return (
-    <li className={classes.item}>
-      {updatedDone ? (
-        <RiCheckboxCircleFill
-          className={classes.checkbox}
-          onChange={changeDoneHanlder}
-          onClick={editDoneHandler}
-        />
-      ) : (
-        <RiCheckboxBlankCircleLine
-          className={classes.checkbox}
-          onChange={changeDoneHanlder}
-          onClick={editDoneHandler}
-        />
-      )}
-
-      <div className={classes["text-actions"]}>
-        <>
-          {isReadyChangeText ? (
-            <div className={classes["text-update"]}>
-              <input
-                type="text"
-                name="text"
-                value={updatedText}
-                onChange={changeTextHandler}
-              />
-              <button type="button" onClick={editTextHandler}>
-                수정
-              </button>
-            </div>
+    <>
+      {isRightUser && (
+        <li className={classes.item}>
+          {updatedDone ? (
+            <RiCheckboxCircleFill
+              className={classes.checkbox}
+              onChange={changeDoneHanlder}
+              onClick={editDoneHandler}
+            />
           ) : (
+            <RiCheckboxBlankCircleLine
+              className={classes.checkbox}
+              onChange={changeDoneHanlder}
+              onClick={editDoneHandler}
+            />
+          )}
+
+          <div className={classes["text-actions"]}>
             <>
-              {updatedDone ? (
-                <p className={`${classes.value} ${classes["value-done"]}`}>
-                  {text}
-                </p>
+              {isReadyChangeText ? (
+                <div className={classes["text-update"]}>
+                  <input
+                    type="text"
+                    name="text"
+                    value={updatedText}
+                    onChange={changeTextHandler}
+                  />
+                  <button type="button" onClick={editTextHandler}>
+                    수정
+                  </button>
+                </div>
               ) : (
-                <p className={classes.value}>{text}</p>
+                <>
+                  {updatedDone ? (
+                    <p className={`${classes.value} ${classes["value-done"]}`}>
+                      {text}
+                    </p>
+                  ) : (
+                    <p className={classes.value}>{text}</p>
+                  )}
+                </>
               )}
             </>
-          )}
-        </>
-      </div>
-      <div className={classes.actions}>
-        <div id="edit" onClick={openEditTextHandler}>
-          <AiOutlineEdit className={classes.icon} size="33" />
-          {/* 수정버튼 */}
-        </div>
-        <div id="remove" onClick={removeHandler}>
-          <AiOutlineDelete className={classes.icon} size="33" />
-          {/* 삭제버튼 */}
-        </div>
-      </div>
-    </li>
+          </div>
+          <div className={classes.actions}>
+            <div id="edit" onClick={openEditTextHandler}>
+              <AiOutlineEdit className={classes.icon} size="33" />
+              {/* 수정버튼 */}
+            </div>
+            <div id="remove" onClick={removeHandler}>
+              <AiOutlineDelete className={classes.icon} size="33" />
+              {/* 삭제버튼 */}
+            </div>
+          </div>
+        </li>
+      )}
+    </>
   );
 };
 

@@ -24,6 +24,7 @@ const CheckList = () => {
           {todos?.map((todo) => (
             <CheckItem
               key={todo.cid}
+              userId={todo.userId}
               cid={todo.cid}
               text={todo.text}
               done={todo.done}
