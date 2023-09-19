@@ -29,13 +29,10 @@
   margin-top: 30px;
 }
 
-.profile__img {
-  width: 150px;
-  height: 150px;
+.profile__info img {
   margin: 30px auto;
   border-radius: 50%;
-  background-color: var(--color-gray-200);
-  background-size: cover;
+  width: 60%;
 }
 
 .description {
@@ -80,4 +77,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .profile {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile__inner {
+    width: 90%;
+    margin-bottom: 30px;
+    border: none;
+  }
+
+  .checkList {
+    width: 90%;
+  }
 }
