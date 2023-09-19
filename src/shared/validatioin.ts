@@ -14,10 +14,16 @@ export const userNameCheck = (name: string) => {
   return reg.test(name);
 };
 
+export const phoneNumberCheck = (phone: string) => {
+  const reg = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
+  return reg.test(phone);
+};
+
 export const errorMessage = {
   required: "필수 정보입니다.",
   invalidEmail: "이메일을 올바르게 입력해주세요.",
   invalidPw: "8~20자 영문 대 소문자, 숫자만 사용 가능합니다.",
   invalidConfirmPw: "비밀번호가 일치하지 않습니다.",
   invalidUserName: "2~8자의 숫자, 한글, 영문 대 소문자만 사용 가능합니다.",
+  invalidPhoneNumber: "'-'없이 숫자만 입력해야합니다.",
 };
