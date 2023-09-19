@@ -30,17 +30,17 @@ const Footer = () => {
           </div>
           <ul className={classes.link}>
             <li>
-              <Link to="#">
+              <Link to="https://github.com/SuamKang">
                 <BsGithub size="33" />
               </Link>
             </li>
             <li>
-              <Link to="#">
+              <Link to="https://velog.io/@ksa199653">
                 <SiVelog size="33" />
               </Link>
             </li>
             <li>
-              <Link to="#">
+              <Link to="https://suam148.tistory.com/">
                 <SiTistory size="33" />
               </Link>
             </li>
