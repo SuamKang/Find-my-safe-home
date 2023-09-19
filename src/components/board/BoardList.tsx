@@ -15,7 +15,7 @@ const BoardList = ({ posts }: { posts: PostProps[] }) => {
               <div className={classes.content}>
                 <h2>{post.title}</h2>
                 <time>{post.date}</time>
-                <p>{post.userId}</p>
+                <p>{post.userName}</p>
               </div>
             </Link>
           </li>
