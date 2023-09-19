@@ -44,6 +44,7 @@ export interface checkDetailDataType {
 
 export interface checkDataType extends checkDetailDataType {
   cid: string;
+  userId: string;
 }
 
 export interface CheckType {
