@@ -38,15 +38,15 @@ export const signUpFB = (email: string, password: string, userName: string) => {
         password
       );
       const user = userCredential.user;
-      console.log(user.photoURL);
+      // console.log(user.photoURL);
       // 사용자가 로그인 한 경우에만 updateProfile호출
       if (user) {
         if (!user.displayName) {
           await updateProfile(user, {
             displayName: userName,
+            photoURL: null,
           });
         }
-        console.log(user.displayName);
 
         // A non-serializable value was detected in an action, in the path: `payload`. Value:  이 에러는
         // 리덕스 툴킷에서 엑션객체를 만들 때, "비직렬화 가능한(non-serializable) 값"이 포함되어 있을 때 발생한다. Redux는 상태와 액션을 직렬화하고 역직렬화할 수 있어야 하며, 비직렬화 가능한 값이 액션 객체에 포함되면 Redux는 오류를 낸다.
@@ -54,8 +54,8 @@ export const signUpFB = (email: string, password: string, userName: string) => {
 
         // 여기에 user 데이터를 필요한 형태로 추출해준다
 
-        const { email, displayName, uid } = user;
-        const userInfo = { email, displayName, uid };
+        const { email, displayName, uid, photoURL } = user;
+        const userInfo = { email, displayName, uid, photoURL };
         dispatch(setUser(userInfo));
       }
 

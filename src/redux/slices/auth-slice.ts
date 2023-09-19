@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface UserType {
-  uid: string;
-  email: string;
-  password: string;
-  userName: string;
-  user_profile: string;
+  uid: string | null;
+  email: string | null;
+  password: string | null;
+  displayName: string | null;
+  photoURL: string | undefined | null;
 }
 
 export interface AuthType {
