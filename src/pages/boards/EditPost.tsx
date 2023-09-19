@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+
 import BoardForm from "../../components/board/BoardForm";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { asyncBoardActions } from "../../redux/actions/board-action";
+
 import { PostFormData } from "../../shared/types";
-import { useEffect } from "react";
 
 // 새로 생성할 엑션생성자를 onSubmit헨들러함수 안 로직으로 구성 => 해당 핸들러 양식컴포넌트에 props로 전달
 const EditPostPage = () => {
@@ -41,5 +43,3 @@ const EditPostPage = () => {
 };
 
 export default EditPostPage;
-
-// 새롭게 게시글을 수정하게되면 새롭게 작성한걸로 데이터베이스에 잘 변경은 되는데, 변경된 텍스트 혹은 데이터를 리덕스 스토어엔 업데이트 되지 않는것 같고, 해당 경로도 문제가 있어보임

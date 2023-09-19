@@ -1,7 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { asycnCheckActions } from "../../redux/actions/check-action";
 import { useAppDispatch } from "../../redux/hooks";
-import { checkDataType } from "../../redux/slices/check-slice";
+import { checkDataType } from "../../shared/types";
+
 import classes from "./CheckItem.module.css";
 
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
@@ -125,8 +126,3 @@ const CheckItem = ({ cid, text, done }: checkDataType) => {
 };
 
 export default CheckItem;
-
-// 기능 플로우 정리
-
-// 1. 수정 버튼 클릭(onClick={editHanlder})시 p태그 자리 input창으로 변경 후 autoFocus 되게 하기
-// 2. 수정할 텍스트 입력 후, 수정버튼 클릭시 디스패치 되어 텍스트 변경되게

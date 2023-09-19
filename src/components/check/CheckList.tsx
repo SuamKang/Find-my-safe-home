@@ -5,16 +5,6 @@ import CheckItem from "./CheckItem";
 import classes from "./CheckList.module.css";
 import { asycnCheckActions } from "../../redux/actions/check-action";
 
-// todo리스트 상태 관리 해야함!!!
-
-// check항목 하나에 들어있는
-// {
-//   userId,
-//   cid,
-//   text,
-//   done
-// }
-
 const CheckList = () => {
   const todos = useAppSelector((state) => state.check.checks);
   console.log(todos);

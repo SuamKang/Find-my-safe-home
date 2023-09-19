@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 import { checkActions } from "../slices/check-slice";
 import { AppDispatch } from "..";
 
-import { checkDetailDataType } from "../slices/check-slice";
+import { checkDetailDataType } from "../../shared/types";
 
 const { setCheck } = checkActions;
 
@@ -97,9 +97,6 @@ export const removeCheckFB = (checkId: string | undefined) => {
     }
   };
 };
-
-// 체크리스트 Toggle -> editCheckFB함수로 받는 매개변수에 done필드도 포함시켜서 먼저 시도해보기
-// export const toggleCheckFB = () => {}
 
 export const asycnCheckActions = {
   addCheckFB,
