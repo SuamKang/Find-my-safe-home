@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import classes from "./Header.module.css";
 
@@ -15,6 +15,7 @@ import { asyncAuthActions } from "../../../redux/actions/auth-action";
 const Header = () => {
   const isLogin = useAppSelector((state) => state.auth.isLogin);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   // console.log(isLogin);
   const [isToggleOpen, setIsToggleOpen] = useState(false);
 
@@ -34,6 +35,7 @@ const Header = () => {
 
     if (dobbleCheck) {
       dispatch(asyncAuthActions.logOutFB());
+      navigate("/");
     }
   };
 
