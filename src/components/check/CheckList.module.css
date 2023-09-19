@@ -13,6 +13,13 @@
   color: #fff;
 }
 
+.container .list {
+  margin: 30px auto;
+  /*지정 높이만큼 스크롤*/
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
 @media (max-width: 786px) {
   .container h1 {
     font-size: 30px;
