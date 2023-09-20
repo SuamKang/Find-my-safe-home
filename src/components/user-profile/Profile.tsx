@@ -1,9 +1,10 @@
+import { useAppSelector } from "../../redux/hooks";
+
 import classes from "./Profile.module.css";
 
-import BasicAvatar from "../../assets/main/basicAvatar.png";
+import BasicAvatar from "/assets/main/basicAvatar.png";
 
 import CheckList from "../check/CheckList";
-import { useAppSelector } from "../../redux/hooks";
 const Profile = () => {
   // 유저 정보 렌더링
   const userData = useAppSelector((state) => state.auth.user);

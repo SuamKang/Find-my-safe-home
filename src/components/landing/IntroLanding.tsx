@@ -1,6 +1,7 @@
 import classes from "./IntroLanding.module.css";
-import home from "../../assets/main/home.png";
 import { Link } from "react-router-dom";
+
+import home from "/assets/main/home.png";
 
 const Intro = () => {
   return (

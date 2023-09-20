@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+
 import classes from "./FaqLanding.module.css";
-import questionWoman from "../../assets/main/question-woman2.png";
+
+import questionWoman from "/assets/main/question-woman2.png";
 
 const FaqLanding = () => {
   return (

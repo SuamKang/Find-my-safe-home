@@ -3,13 +3,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 import classes from "./Header.module.css";
 
-import Logo from "./Logo";
-
-import { IconContext } from "react-icons";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { asyncAuthActions } from "../../../redux/actions/auth-action";
 
+import { IconContext } from "react-icons";
+import { GiHamburgerMenu } from "react-icons/gi";
+
+import Logo from "./Logo";
 // 이제 로그인 상태또한 설정완료했으니 프로필 페이지 구성하고 그 안에서 로그아웃 할 수 있는 버튼을 만들자
 
 const Header = () => {

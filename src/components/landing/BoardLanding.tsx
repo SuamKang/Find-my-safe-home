@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 
 import classes from "./BoardLanding.module.css";
-import glassesWoman from "../../assets/main/glasses-woman.png";
-import readingWoman from "../../assets/main/reading-woman.png";
-import dancingMan from "../../assets/main/dancing-man.png";
+
+import glassesWoman from "/assets/main/glasses-woman.png";
+import readingWoman from "/assets/main/reading-woman.png";
+import dancingMan from "/assets/main/dancing-man.png";
 
 const BoardLanding = () => {
   return (
