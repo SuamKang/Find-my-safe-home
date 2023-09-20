@@ -84,28 +84,28 @@ npm run dev
 <br>
 
 ### 로그인 및 회원가입 화면
-<img width="1420" alt="로그인" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/17150515-c501-448a-be66-09e7e946b8f4">
-<img width="1420" alt="회원가입" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/3b40cfd0-795c-4258-9286-22576c948bdc">
+<img width="1020" alt="로그인" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/17150515-c501-448a-be66-09e7e946b8f4">
+<img width="1020" alt="회원가입" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/3b40cfd0-795c-4258-9286-22576c948bdc">
 
 <br>
 
 ### 프로필 화면
-<img width="1420" alt="프로필" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/95959d28-0ec2-4c45-b7ce-b71ef5c604af">
+<img width="1020" alt="프로필" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/95959d28-0ec2-4c45-b7ce-b71ef5c604af">
 
 <br>
 
 ### 자유게시판 화면
-<img width="1420" alt="게시판화면" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/6a1c10d9-e5ee-4d59-abe3-549d1079bea0">
+<img width="1020" alt="게시판화면" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/6a1c10d9-e5ee-4d59-abe3-549d1079bea0">
 
 <br>
 
 ### 게사판 상세페이지 화면
-<img width="1420" alt="상세게시글1" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/99b909e1-09e6-43f7-9a5c-039b523eb1f2">
-<img width="1420" alt="상세게시글2" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/448ff250-4bd6-4599-84b9-4e9b404b3712">
+<img width="1020" alt="상세게시글1" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/99b909e1-09e6-43f7-9a5c-039b523eb1f2">
+<img width="1020" alt="상세게시글2" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/448ff250-4bd6-4599-84b9-4e9b404b3712">
 
 <br>
 
 ### FAQ 화면
-<img width="1420" alt="faq" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/fa4f9c3c-8c22-4701-8080-4fbdd9712565">
+<img width="1020" alt="faq" src="https://github.com/SuamKang/Find-my-safe-home/assets/108013978/fa4f9c3c-8c22-4701-8080-4fbdd9712565">
 
 
