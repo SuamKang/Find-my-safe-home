@@ -5,9 +5,7 @@ import LogoImg from "../../UI/LogoImg";
 const Logo = () => {
   return (
     <NavLink to="/">
-      <div className="logo-wrapper">
-        <LogoImg />
-      </div>
+      <LogoImg />
     </NavLink>
   );
 };
