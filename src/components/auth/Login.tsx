@@ -8,12 +8,15 @@ import { errorMessage } from "../../shared/validatioin";
 
 import classes from "./Login.module.css";
 
+import { FcGoogle } from "react-icons/fc";
+
 type FormData = {
   email: string;
   password: string;
 };
 
 const LoginForm = () => {
+  // const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -69,13 +72,23 @@ const LoginForm = () => {
       return alert("양식을 입력하세요!");
     }
 
-    if (
+    if (errorData["email"] === "invalidEmail") {
+      alert("아이디가 올바르지 않습니다.");
+    } else if (errorData["password"] === "invalidPw") {
+      alert("비밀번호가 일치하지 않습니다.");
+    } else if (
       errorData["email"] !== "invalidEmail" &&
       errorData["password"] !== "invalidPw"
     ) {
       dispatch(asyncAuthActions.logInFB(email, password));
       navigate("/");
     }
+  };
+
+  const socialLoginHandler = () => {
+    dispatch(asyncAuthActions.googleLoginFB());
+
+    navigate("/");
   };
 
   return (
@@ -119,6 +132,10 @@ const LoginForm = () => {
         </div>
 
         <button type="submit">로그인하기</button>
+
+        <div className={classes.google} onClick={socialLoginHandler}>
+          <FcGoogle size="20px" className={classes.icon} /> <p>Google 로그인</p>
+        </div>
 
         <div className={classes.action}>
           <small> 회원이 아닌가요?</small>

@@ -88,6 +88,35 @@ button:active {
   transform: scale(0.98);
 }
 
+.google {
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+
+  width: 90%;
+  height: 50%;
+  margin: 20px 0;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.google:hover {
+  background-color: var(--color-gray-100);
+}
+
+.google p {
+  padding-top: 3px;
+}
+
 .action {
   margin: 20px auto;
   display: flex;
