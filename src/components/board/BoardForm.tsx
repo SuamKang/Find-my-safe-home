@@ -1,4 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { BoardFormProps, PostFormData } from "../../shared/types";
 
 import classes from "./BoardForm.module.css";
@@ -6,6 +8,8 @@ import classes from "./BoardForm.module.css";
 // 양식 폼 컴포넌트를 제네릭 타입으로 타입 지정
 // BoardForm컴포넌트를 재사용하기 위해 formData를 props로 전달 -> 현재 편집중인 게시글 데이터를 초기값으로 가지거나, 새로운 게시글을 추가하기위한 빈 양식을 가질수 있어야 하기 때문이다.
 const BoardForm: React.FC<BoardFormProps> = ({ formData, onSubmit }) => {
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState(formData.title);
   const [image, setImage] = useState(formData.image);
   const [date, setDate] = useState(formData.date);
@@ -35,6 +39,10 @@ const BoardForm: React.FC<BoardFormProps> = ({ formData, onSubmit }) => {
     };
 
     onSubmit(updatedFormData);
+  };
+
+  const cancleHandler = () => {
+    navigate("/board");
   };
 
   return (
@@ -85,7 +93,9 @@ const BoardForm: React.FC<BoardFormProps> = ({ formData, onSubmit }) => {
         />
       </p>
       <div className={classes.actions}>
-        <button type="button">취소</button>
+        <button type="button" onClick={cancleHandler}>
+          취소
+        </button>
         <button>저장</button>
       </div>
     </form>
